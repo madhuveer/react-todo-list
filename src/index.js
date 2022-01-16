@@ -4,7 +4,7 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Todo  from './components/Todo';
-import CompletedItem from './components/Todo';
+import CompletedList from './components/CompletedList';
 import { BrowserRouter as Router ,Route ,Routes } from 'react-router-dom';
 
 
@@ -14,7 +14,7 @@ ReactDOM.render(
   <Routes>
     <Route exact path="/" element={ <App/> }></Route>
      <Route  path="/todo" element={ <Todo/> }></Route>
-      <Route  path="/completedItems" element={ <Todo/> }></Route>
+      <Route  path="/completedItems" element={ <CompletedList/> }></Route>
      
      </Routes>
     </Router>

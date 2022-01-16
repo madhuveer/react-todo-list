@@ -43,11 +43,12 @@ float: right;
   border: none;
   cursor: pointer;
   color: white;
-  float: right;
+  float: none;
   }
 
   .item  img:hover {
-    transform: scale(10);
+    
+    transform: scale(10) rotate(-360deg);
     }
 
 .header{
@@ -79,8 +80,9 @@ p {
 }
 
 .placeholder {
-  height: 25px;
-  width: 25px;
+  height: 45px;
+  width: 45px;
+  transform: rotate(90deg);
   background-color: pink;
   padding: 20px;
 }

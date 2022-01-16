@@ -46,9 +46,9 @@ function App() {
 
       
 
-       <Link to="/todo" className="btn btn-primary">
+       <Link to="/todo" className="linkClass">
 
-        <button > Add item </button>
+        <button className="linkClass"> Add item </button>
       </Link>
       
       </div>
