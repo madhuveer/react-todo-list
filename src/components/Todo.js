@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React,{ useState,useEffect } from 'react';
 import './Todo.css';
 import { FileUploader } from "react-drag-drop-files";
 import { Link }  from 'react-router-dom';
@@ -19,8 +19,8 @@ function Item({ item, index, completeItems,isChecked, removeItem }) {
   
     return (
         <tr className={!item.completed? undefined: 'hidden' } >
-    <td  >     <input type = "checkbox" checked={isChecked}  style= {{marginLeft: '50px',
-    marginTop: '10px'}}  onChange={() => completeItems(index) } /></td> 
+    <td  >     <input type = "checkbox" checked={isChecked==index}  style= {{marginLeft: '50px',
+    marginTop: '10px'}}  onChange={() => completeItems(index+1) } /></td> 
           <td  >{item.name}</td>    
 
           <td>{item.price}</td>   
@@ -45,14 +45,13 @@ function Item({ item, index, completeItems,isChecked, removeItem }) {
 }
 
 
-var name="", price="",image1;
+var name="", price=0,image1;
 
 
 
 function CreateItem({ addItem }) {
 
-
-    const [style, setStyle] = useState("hidden");
+  const [style, setStyle] = useState("hidden");
 
 const [file, setFile] = useState(null);
 const handleChange = (file) => {
@@ -74,7 +73,7 @@ const handleChange = (file) => {
         addItem(name,price,image1);
         hidden=true;
         name="";
-        price="";
+        price=0;
         image1=undefined;
         setStyle("hidden");
         setFile(undefined);
@@ -95,9 +94,9 @@ const handleChange = (file) => {
                 onChange={e =>name=e.target.value}
             />
 			      <input
-                type="text"
+                type="number"
                 className="input"
-           
+           min="1"
                 placeholder="Price"
                 onChange={e => price=e.target.value}
             />
@@ -119,11 +118,7 @@ const handleChange = (file) => {
 
       
 
-      
-
-      
-           
-      </div>
+       </div>
 
         </form>
     );
@@ -131,18 +126,15 @@ const handleChange = (file) => {
 var isAsc=true;
 var currentSelection=-1;
 function Todo() {
-  const [isChecked, setIsChecked] = useState(false);
-  
-   
-  
-
+  const [isChecked, setIsChecked] = useState(-1);
   const [cookies, setCookie] = useCookies(['ItemList']);
+  
   const [show, setShow] = useState(false);
   const handleClose = () => 
   {
     const newItems = [...items];
     newItems[currentSelection].completed = false;
-    setIsChecked(false);
+    setIsChecked(-1);
     setItems(newItems);
   setShow(false);
   };
@@ -171,9 +163,9 @@ function Todo() {
   
   
 
-    const [progress , setProgress] = useState(0);
+    const [progress , setProgress] = useState(-1);
     const [selectedFile, setSelectedFile] = useState(null);
-
+    const [sortConfig, setSortConfig] = React.useState([{name:'name',direction:'descending'}]);
     const handleFileInput = (e) => {
         setSelectedFile(e.target.files[0]);
     }
@@ -220,18 +212,20 @@ function Todo() {
 
     const requestSort = (key) => {
 
-        
+      let dir = 'ascending';
         if(isAsc)
         {
             const    sorted=  [...items].sort((a, b) =>( b[key] > a[key])?1:-1);
             setItems(sorted);
+            dir = 'descending';
         }
         else{
             const       sorted=  [...items].sort((a, b) =>(b[key] > b[key])?1:-1);
             setItems(sorted);
+            dir = 'ascending';
         }
         isAsc=!isAsc;
-       
+        setSortConfig({name:key,direction:dir});
     };
 
     const removeItem = index => {
@@ -244,13 +238,22 @@ function Todo() {
     };
 
     
-    const completeItems = index => {
-      currentSelection=index;
-      setIsChecked(true);
+    const completeItems =( index )=> {
+      currentSelection=index-1;
+      if(currentSelection!=-1)
+      {
+      setIsChecked(currentSelection);
       handleShow();
+      }
    
   };
 
+  const getClassNamesFor = (name,index) => {
+    if (!sortConfig) {
+      return;
+    }
+    return sortConfig.name === name ? sortConfig.direction : undefined;
+  };
 
   
 
@@ -283,6 +286,7 @@ function Todo() {
             <button
               type="button"  className="linkClass"
               onClick={() => requestSort('name')}
+              className={getClassNamesFor('name',0)}
               >
               Name
             </button>
@@ -291,9 +295,10 @@ function Todo() {
             <button
               type="button"  className="linkClass"
               onClick={() => requestSort('price')}
-             
+              className={getClassNamesFor('price',1)
+            }
             >
-              Price
+              Price($)
             </button>
           </th>
           <th>

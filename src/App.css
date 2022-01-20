@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  margin-top: 60px;
 }
 
 .App-logo {
@@ -28,6 +29,19 @@
   color: #61dafb;
 }
 
+.Image1 {
+  margin-right: 4rem;
+  margin-bottom: 20rem;
+  width: 150px;
+}
+
+.Image2 {
+  margin-right: 10rem;
+}
+
+.paragraph {
+  margin-top: 60px;
+}
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -38,9 +52,9 @@
 }
 
 .linkClass {
-  background: none!important;
+  background: none !important;
   border: none;
-  padding: 0!important;
+  padding: 0 !important;
   /*optional*/
   font-family: arial, sans-serif;
   /*input has OS specific font-family*/

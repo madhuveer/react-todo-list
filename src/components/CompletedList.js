@@ -41,6 +41,7 @@ function CompletedItem({ item, index, removeItem }) {
 var isAsc=true;
 function CompletedList() {
   const [cookies, setCookie] = useCookies(['ItemList']);
+  const [sortConfig, setSortConfig] = React.useState([{name:'name',direction:'descending'}]);
   let dbData=    cookies.ItemList;
     const [items, setItems] = useState(
       dbData
@@ -53,17 +54,20 @@ function CompletedList() {
 
     const requestSort = (key) => {
 
-        
+      let dir = 'ascending';
         if(isAsc)
         {
             const    sorted=  [...items].sort((a, b) =>( b[key] > a[key])?1:-1);
             setItems(sorted);
+            dir = 'descending';
         }
         else{
             const       sorted=  [...items].sort((a, b) =>(b[key] > b[key])?1:-1);
             setItems(sorted);
+            dir = 'ascending';
         }
         isAsc=!isAsc;
+        setSortConfig({name:key,direction:dir});
        
     };
 
@@ -78,7 +82,12 @@ function CompletedList() {
 
     
  
-
+    const getClassNamesFor = (name,index) => {
+      if (!sortConfig) {
+        return;
+      }
+      return sortConfig.name === name ? sortConfig.direction : undefined;
+    };
 
   
 
@@ -94,6 +103,7 @@ function CompletedList() {
             <button
               type="button"  className="linkClass"
               onClick={() => requestSort('name')}
+              className={getClassNamesFor('name',0)}
               >
               Name
             </button>
@@ -102,9 +112,9 @@ function CompletedList() {
             <button
               type="button"  className="linkClass"
               onClick={() => requestSort('price')}
-             
+              className={getClassNamesFor('price',1)}
             >
-              Price
+              Price($)
             </button>
           </th>
           <th>
