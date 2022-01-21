@@ -1,4 +1,4 @@
-import React,{ useState,useEffect } from 'react';
+import React,{ useState} from 'react';
 import './Todo.css';
 import { FileUploader } from "react-drag-drop-files";
 import { Link }  from 'react-router-dom';
@@ -14,12 +14,12 @@ const REGION ='us-east-1';
 const fileTypes = ["JPG", "PNG", "GIF"];
 var hidden=true;
 
-var showPending=true;
+
 function Item({ item, index, completeItems,isChecked, removeItem }) {
   
     return (
         <tr className={!item.completed? undefined: 'hidden' } >
-    <td  >     <input type = "checkbox" checked={isChecked==index}  style= {{marginLeft: '50px',
+    <td >  <input type = "checkbox" checked={isChecked===index}  style= {{marginLeft: '50px',
     marginTop: '10px'}}  onChange={() => completeItems(index+1) } /></td> 
           <td  >{item.name}</td>    
 
@@ -112,7 +112,7 @@ const handleChange = (file) => {
      
      
 			   <button className="btn btn-primary"  style={{ marginLeft: '42% '}}   onClick={handleSubmit}>Add Item</button>
-         
+         <p style={{ marginRight: '5rem'}}>Click on button to add the Item list</p>
          <div>
      
 
@@ -150,7 +150,7 @@ function Todo() {
     setShow(false)
   };
   
-    let dbData=    cookies.ItemList?cookies.ItemList:[];
+    let dbData= cookies.ItemList?cookies.ItemList:[];
 
     const [items, setItems] = useState(
       dbData
@@ -337,7 +337,7 @@ function Todo() {
             </div>
             <Link to="/" >
 
-<button className="linkClass" style={{ marginLeft: '40% ',marginRight:'2%'}}  >Home</button>
+<button className="linkClass" style={{ marginLeft: '36% ',marginRight:'2%'}}  >Home</button>
 </Link>
             <Link to="/completedItems" className="linkClass">
             <button   className="linkClass"  style={{ marginLeft: ' 2% ',marginTop:'2%'}}  > View Completed Items</button>

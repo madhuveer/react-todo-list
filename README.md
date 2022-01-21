@@ -35,3 +35,9 @@ After execution of this command app will be up and running on
 1. http://localhost:3000/
 
 Note:- This app will run on default 3000 port if any other application is already using this port then nodeJS will ask user to change the port no while starting the application. So, user has to change the port no in the url.
+
+Deployment
+
+The application is deployed by using firebase. You can run directly using web link.
+
+https://todolist-77eae.web.app
