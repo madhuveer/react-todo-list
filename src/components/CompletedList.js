@@ -35,9 +35,6 @@ function CompletedItem({ item, index, removeItem }) {
   );
 }
 
-
-
-
 var isAsc=true;
 function CompletedList() {
   const [cookies, setCookie] = useCookies(['ItemList']);
@@ -46,11 +43,6 @@ function CompletedList() {
     const [items, setItems] = useState(
       dbData
     );
-
-  
-
-
-  
 
     const requestSort = (key) => {
 
