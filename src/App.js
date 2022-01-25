@@ -4,6 +4,7 @@ import logo from "./images/logo.svg";
 import "./App.css";
 import { Link } from "react-router-dom";
 
+// Always put 1 component per file to make things organized.
 function Header(props) {
   return (
     <>
