@@ -3,9 +3,8 @@ import './Todo.css';
 import { FileUploader } from "react-drag-drop-files";
 import { Link }  from 'react-router-dom';
 import { useCookies } from 'react-cookie';
-
-
-var showPending=true;
+import ModelMs  from './ModelMs';
+import HomeButton from './HomeButton';
 
 
 function CompletedItem({ item, index, removeItem }) {
@@ -35,53 +34,9 @@ function CompletedItem({ item, index, removeItem }) {
   );
 }
 
-var isAsc=true;
+
 function CompletedList() {
-  const [cookies, setCookie] = useCookies(['ItemList']);
-  const [sortConfig, setSortConfig] = React.useState([{name:'name',direction:'descending'}]);
-  let dbData=    cookies.ItemList;
-    const [items, setItems] = useState(
-      dbData
-    );
-
-    const requestSort = (key) => {
-
-      let dir = 'ascending';
-        if(isAsc)
-        {
-            const    sorted=  [...items].sort((a, b) =>( b[key] > a[key])?1:-1);
-            setItems(sorted);
-            dir = 'descending';
-        }
-        else{
-            const       sorted=  [...items].sort((a, b) =>(b[key] > b[key])?1:-1);
-            setItems(sorted);
-            dir = 'ascending';
-        }
-        isAsc=!isAsc;
-        setSortConfig({name:key,direction:dir});
-       
-    };
-
-    const removeItem = index => {
-        const newItems = [...items];
-        newItems.splice(index, 1);
-        let expires = new Date();
-      expires.setTime(expires.getTime()+(10*60*60*1000));
-      setCookie('ItemList',JSON.stringify(newItems), { path: '/',  expires});
-        setItems(newItems);
-    };
-
-    
- 
-    const getClassNamesFor = (name,index) => {
-      if (!sortConfig) {
-        return;
-      }
-      return sortConfig.name === name ? sortConfig.direction : undefined;
-    };
-
-  
+  const [items,show,handleClose,handleOk,getClassNamesFor,requestSort,isChecked,removeItem,addItem,completeItems]=ModelMs();
 
     return (
         <div className="todo-container"  >
@@ -89,7 +44,7 @@ function CompletedList() {
     
       <thead>
         <tr>
-       
+    
           <th > 
 
             <button
@@ -106,7 +61,7 @@ function CompletedList() {
               onClick={() => requestSort('price')}
               className={getClassNamesFor('price',1)}
             >
-              Price($)
+              Price
             </button>
           </th>
           <th>
@@ -140,10 +95,7 @@ function CompletedList() {
     </table>
             
             <div className="create-item"   >
-            <Link to="/" >
-
-<button className="linkClass" style={{ marginLeft: '40% ',marginRight:'2%'}}  >Home</button>
-</Link>
+            <HomeButton/>
        
             <Link to="/todo" className="linkClass">
                 <button className="linkClass"  style={{ marginLeft: ' 5%',marginTop:'2%'}}   > View Pending Items</button>

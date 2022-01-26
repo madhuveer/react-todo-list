@@ -31,12 +31,9 @@ function Header(props){
   );
   
 }
-
-
-
 function Footer(props){
   return (
- <p> CopyRight {props.year}</p>
+ <p> CopyRight Madhuri {props.year}</p>
 
   );
 }
